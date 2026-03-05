@@ -14,7 +14,7 @@ import (
 )
 
 type IUserService interface {
-	Create(u *models.UserLogin) error
+	Register(u *models.UserLogin) error
 	Login(u *models.UserLogin) (*models.LoginResponse, error)
 	GetUser(username string) (*models.User, error)
 }
@@ -37,7 +37,7 @@ func NewUserService(
 	}
 }
 
-func (s *userService) Create(u *models.UserLogin) error {
+func (s *userService) Register(u *models.UserLogin) error {
 	if u == nil {
 		return fmt.Errorf("user cannot be nil")
 	}
@@ -108,9 +108,9 @@ func (s *userService) Login(u *models.UserLogin) (*models.LoginResponse, error) 
 	}
 
 	return &models.LoginResponse{
-		AccessToken: token,
-		TokenType:   "Bearer",
-		ExpiresAt:   expireAt.Unix(),
+		Token:     token,
+		TokenType: "Bearer",
+		ExpiresAt: expireAt.Unix(),
 	}, nil
 }
 

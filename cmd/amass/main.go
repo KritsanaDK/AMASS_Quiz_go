@@ -138,12 +138,13 @@ func main() {
 
 	api := e.Group("/api/v1")
 	api.GET("/health", userHandler.Health)
-	api.POST("/users", userHandler.Create)
-	api.POST("/login", userHandler.Login)
 
-	protected := api.Group("")
+	api.POST("/auth/register", userHandler.Register)
+	api.POST("/auth/login", userHandler.Login)
+
+	protected := api.Group("/users")
 	protected.Use(middlewares.AuthMiddleware())
-	protected.GET("/users", userHandler.GetUser)
+	protected.GET("/me", userHandler.GetUser)
 
 	// --- Start ---
 	e.Logger.Fatal(e.Start(":3001"))

@@ -24,7 +24,7 @@ func NewUserHandler(debug bool, s service.AllService) *userHandler {
 	}
 }
 
-func (h *userHandler) Create(c echo.Context) error {
+func (h *userHandler) Register(c echo.Context) error {
 
 	body, err := io.ReadAll(c.Request().Body)
 	if err != nil {
@@ -42,17 +42,17 @@ func (h *userHandler) Create(c echo.Context) error {
 	req := models.UserLogin{}
 	err = utils.BytesToStruct(body, &req)
 	if err != nil {
-		return h.GenErrorResponse("200", "GetPaperlessWithCustomerID| INVALID PARAM", http.StatusBadRequest, c, tracking)
+		return h.GenErrorResponse("200", "RegisterUser| INVALID PARAM", http.StatusBadRequest, c, tracking)
 	}
 
 	err = h.ValidatorParam(req)
 	if err != nil {
-		return h.GenErrorResponse("200", "GetPaperlessWithCustomerID| INVALID PARAM", http.StatusBadRequest, c, tracking)
+		return h.GenErrorResponse("200", "RegisterUser| INVALID PARAM", http.StatusBadRequest, c, tracking)
 	}
 
-	err = h.service.Create(&req)
+	err = h.service.Register(&req)
 	if err != nil {
-		return h.GenErrorResponse("ERROR_CODE", "CreateUser| "+err.Error(), http.StatusInternalServerError, c, tracking)
+		return h.GenErrorResponse("ERROR_CODE", "RegisterUser| "+err.Error(), http.StatusInternalServerError, c, tracking)
 	}
 
 	return h.GenSuccessResponse(nil, c, tracking)
