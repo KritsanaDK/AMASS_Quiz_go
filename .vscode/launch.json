@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Go API (${input:env})",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceFolder}/cmd/amass",
+      "env": {
+        "ENV": "${input:env}",
+        "DEBUG": "true"
+      },
+      "envFile": "${workspaceFolder}/build/amass/.env.${input:env}",
+      "args": ["-run_mode", "debug_by_vscode"],
+      "showLog": true
+    }
+  ],
+  "inputs": [
+    {
+      "type": "pickString",
+      "id": "env",
+      "description": "Select environment",
+      "options": ["local"],
+      "default": "local"
+    }
+  ]
+}
